@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
           #6.
           s.author                 = "Aotter Inc."
           #7.
-          s.ios.deployment_target  = :ios, "10.0"
+          s.ios.deployment_target  = "10.0"
           
           # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
           #
