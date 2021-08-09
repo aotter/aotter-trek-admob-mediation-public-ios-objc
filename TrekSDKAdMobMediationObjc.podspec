@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
           #1.
           s.name                   = "TrekSDKAdMobMediationObjc"
           #2. 單號支援 Google ads sdk v7
-          s.version                = "1.0.1"
+          s.version                = "1.0.3"
           #3.  
           s.summary                = "AotterTrek SDK AdMob Mediation Objc for iOS developer."
           #4.
@@ -29,6 +29,6 @@ Pod::Spec.new do |s|
           s.swift_version          = '4.2'
      
 
-          s.pod_target_xcconfig    = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'}
-          s.user_target_xcconfig   = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'}
+          s.pod_target_xcconfig    = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'x86_64 arm64'}
+          s.user_target_xcconfig   = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'x86_64 arm64'}
     end
