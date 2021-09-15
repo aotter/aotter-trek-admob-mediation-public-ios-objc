@@ -9,13 +9,19 @@
 
 單號支援 v7: 1.0.1、1.0.3
 
-雙號支援 v7: 1.0.2、1.0.4
+雙號支援 v8: 1.0.2、1.0.4
 
 
 
 Change log:
 
-2021/08/09: version 1.0.3 、 1.0.4 ，fixed the issue of banner ads crashing under iOS 13.
+2021/09/15: 
+
+version 1.0.6， fixed cocoapods x86_64 install warning message. And v7(1.0.3) is deprecated.
+
+2021/08/09: 
+
+version 1.0.3 、 1.0.4 ，fixed the issue of banner ads crashing under iOS 13.
 
 
 
