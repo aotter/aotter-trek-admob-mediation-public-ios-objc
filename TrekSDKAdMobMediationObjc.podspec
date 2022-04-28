@@ -24,9 +24,13 @@ Pod::Spec.new do |s|
           s.source                 = { :git => "https://github.com/aotter/trek-sdk-ios-admob-mediation-objc.git", :tag => s.version.to_s }
           #9.
           s.exclude_files          = "Classes/Exclude"
-          s.vendored_frameworks    = "TrekSDKAdMobMediationObjc.framework"
+          # s.vendored_frameworks    = "TrekSDKAdMobMediationObjc.framework"
           #10.
           s.swift_version          = '4.2'
+          s.source_files           = "admob_files/**"
+          s.dependency               "Google-Mobile-Ads-SDK"
+          s.dependency               "AotterTrek-iOS-SDK"
+          s.static_framework = true
      
 
           s.pod_target_xcconfig    = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'}
