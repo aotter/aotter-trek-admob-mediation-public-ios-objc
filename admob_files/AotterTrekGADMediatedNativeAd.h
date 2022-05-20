@@ -17,7 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AotterTrekGADMediatedNativeAd : NSObject<GADMediatedUnifiedNativeAd>
+@interface AotterTrekGADMediatedNativeAd : NSObject<GADMediationNativeAd>
 
 - (instancetype)initWithTKNativeAd:(nonnull TKAdNative *)nativeAd withAdPlace:(NSString *)adPlace;
 
