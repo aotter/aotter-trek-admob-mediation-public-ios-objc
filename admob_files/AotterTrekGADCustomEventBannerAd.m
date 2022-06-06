@@ -6,6 +6,7 @@
 //
 
 #import "AotterTrekGADCustomEventBannerAd.h"
+#import "AotterTrekAdmobUtils.h""
 #import <WebKit/WebKit.h>
 
 #if devmode
@@ -40,7 +41,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     }
     
     // update sdk need to update mediationVersion and mediationVersionCode
-    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[NSNumber numberWithInt:1],@"mediationVersion":@"AdMob_1.0.6"}];
+    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[AotterTrekAdmobUtils admobMediationVersionCode], @"mediationVersion": [AotterTrekAdmobUtils admobMediationVersion]}];
     
     if (serverParameter != nil && ![serverParameter isEqual: @""]) {
         NSData *data = [serverParameter dataUsingEncoding:NSUTF8StringEncoding];

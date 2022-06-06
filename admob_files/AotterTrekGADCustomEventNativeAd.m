@@ -8,6 +8,7 @@
 #import "AotterTrekGADCustomEventNativeAd.h"
 #import "AotterTrekGADMediatedNativeAd.h"
 #import "AotterTrekGADMediatedSuprAd.h"
+#import "AotterTrekAdmobUtils.h""
 
 #if devmode
     #import "TKAdSuprAd.h"
@@ -42,7 +43,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     }
     
     // update sdk need to update mediationVersion and mediationVersionCode
-    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[NSNumber numberWithInt:1],@"mediationVersion":@"AdMob_1.0.6"}];
+    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[AotterTrekAdmobUtils admobMediationVersionCode], @"mediationVersion": [AotterTrekAdmobUtils admobMediationVersion]}];
 
     
     // Parse serverParameter
