@@ -6,8 +6,14 @@
 //
 
 #import "AotterTrekGADCustomEventBannerAd.h"
-#import <AotterTrek-iOS-SDK/AotterTrek-iOS-SDK.h>
 #import <WebKit/WebKit.h>
+
+#if devmode
+    #import "TKAdSuprAd.h"
+#else
+    #import <AotterTrek-iOS-SDK/AotterTrek-iOS-SDK.h>
+#endif
+
 
 static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCustomEvent";
 

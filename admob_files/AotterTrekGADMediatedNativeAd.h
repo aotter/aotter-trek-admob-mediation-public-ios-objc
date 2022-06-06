@@ -7,7 +7,13 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <AotterTrek-iOS-SDK/AotterTrek-iOS-SDK.h>
+
+#if devmode
+    #import "TKAdNative.h"
+    #import "TKNativeAdConstant.h"
+#else
+    #import <AotterTrek-iOS-SDK/AotterTrek-iOS-SDK.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -6,9 +6,15 @@
 //
 
 #import "AotterTrekGADCustomEventNativeAd.h"
-#import <AotterTrek-iOS-SDK/AotterTrek-iOS-SDK.h>
 #import "AotterTrekGADMediatedNativeAd.h"
 #import "AotterTrekGADMediatedSuprAd.h"
+
+#if devmode
+    #import "TKAdSuprAd.h"
+    #import "TKAdNative.h"
+#else
+    #import <AotterTrek-iOS-SDK/AotterTrek-iOS-SDK.h>
+#endif
 
 static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCustomEvent";
 
