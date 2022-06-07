@@ -13,6 +13,7 @@
 @property(nonatomic, copy) NSMutableDictionary *extras;
 @property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, strong) GADNativeAdImage *mappedIcon;
+@property(nonatomic, strong) UIImageView *mainImageView;
 
 @end
 
@@ -44,6 +45,15 @@
         NSString *mainImageUrlString = _nativeAd.AdData[kTKAdImage_mainKey];
         NSURL *mainImageURL = [[NSURL alloc] initWithString:mainImageUrlString];
         GADNativeAdImage *mainImage = [[GADNativeAdImage alloc] initWithURL:mainImageURL scale:1];
+        if([mainImageUrlString length] > 0){
+            _mainImageView = [[UIImageView alloc] init];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                NSData *data = [NSData dataWithContentsOfURL:mainImageURL];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    _mainImageView.image = [UIImage imageWithData:data];
+                });
+            });
+        }
         
         self.mappedImages = @[iconImage,iconHDImage,mainImage];
         _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconHDImageURL scale:1];
@@ -62,11 +72,11 @@
 #pragma mark - GADMediatedUnifiedNativeAd
 
 - (BOOL)hasVideoContent {
-    return NO;
+    return _mainImageView != nil? YES:NO;
 }
 
 - (UIView *)mediaView {
-    return nil;
+    return _mainImageView;
 }
 
 - (NSString *)advertiser {
@@ -116,6 +126,10 @@
 - (void)didRenderInView:(UIView *)view clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)clickableAssetViews nonclickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)nonclickableAssetViews viewController:(UIViewController *)viewController {
     [_nativeAd registerAdView:view];
     [_nativeAd registerPresentingViewController:viewController];
+}
+
+- (void)didUntrackView:(UIView *)view{
+    [_nativeAd destroy];
 }
 
 

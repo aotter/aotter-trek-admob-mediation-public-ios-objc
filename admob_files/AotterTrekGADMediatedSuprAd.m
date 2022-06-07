@@ -150,5 +150,8 @@
     [_suprAd registerAdView:view];
 }
 
+- (void)didUntrackView:(UIView *)view{
+    [_suprAd destroy];
+}
 @end
 
