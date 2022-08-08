@@ -8,8 +8,8 @@
 
 #import "AotterTrekAdmobUtils.h"
 
-#define staticAdmobMediationVersionCode @3
-#define staticAdmobMediationVersion @"AdMob_1.0.8-beta2"
+#define staticAdmobMediationVersionCode @4
+#define staticAdmobMediationVersion @"AdMob_1.0.8"
 
 @implementation AotterTrekAdmobUtils
 + (NSNumber *)admobMediationVersionCode{
