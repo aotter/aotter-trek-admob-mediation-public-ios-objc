@@ -146,7 +146,7 @@
 }
 
 -(void)didRenderInView:(UIView *)view clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)clickableAssetViews nonclickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)nonclickableAssetViews viewController:(UIViewController *)viewController{
-    NSLog(@"QQQQQQ");
+    NSLog(@"[AotterTrek-iOS-SDK: adMob mediation] TKAdSuprAd didRenderInView");
     [_suprAd registerAdView:view];
 }
 

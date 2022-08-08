@@ -118,7 +118,6 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     int versionNumber = [version intValue];
     
     if (versionNumber >= 13) {
-        NSLog(@"Implement getKeyWindow iOS 13 above(Include)");
         if (@available(iOS 13.0, *)) {
             for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes) {
                 if (windowScene.activationState == UISceneActivationStateForegroundActive) {
@@ -133,7 +132,6 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
         }
     }
     
-    NSLog(@"Implement getKeyWindow iOS 13 below, return keyWindow from sharedApplication");
     return [UIApplication sharedApplication].keyWindow;
 }
 
