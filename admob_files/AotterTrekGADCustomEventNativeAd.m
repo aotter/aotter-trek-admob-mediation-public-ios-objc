@@ -66,24 +66,41 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
         return;
     }
     
+    NSLog(@"[AotterTrek-iOS-SDK: admob mediation] CustomEvent serverParameter: %@", _jsonDic);
+    
     if ([[_jsonDic allKeys] containsObject:@"adType"] && [[_jsonDic allKeys] containsObject:@"adPlace"] ) {
-        //will be deprecated
         _adType = [_jsonDic objectForKey:@"adType"];
         _adPlace = [_jsonDic objectForKey:@"adPlace"];
         
         if ([_adType isEqualToString:@"nativeAd"]) {
+            NSLog(@"[AotterTrek-iOS-SDK: admob mediation] CustomEvent get Type == nativeAd");
             [self fetchTKAdNativeWithAdPlace:_adPlace category:category];
         }else if ([_adType isEqualToString:@"suprAd"]) {
+            NSLog(@"[AotterTrek-iOS-SDK: admob mediation] CustomEvent get Type == suprAd");
             [self fetchTKSuprAdWithAdPlace:_adPlace category:category WithRootViewController:rootViewController];
         }
     }
-    else if ([[_jsonDic allKeys] containsObject:@"clientId"] && [[_jsonDic allKeys] containsObject:@"placeUid"] ) {
+    else if ([[_jsonDic allKeys] containsObject:@"placeUid"] ) {
+        NSLog(@"[AotterTrek-iOS-SDK: admob mediation] CustomEvent get placeUid but which is not supported");
         
-        //WIP..
+        self->_errorDescription = @"Invalid server parameter. placeUid is not supported now.";
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : self->_errorDescription, NSLocalizedFailureReasonErrorKey : self->_errorDescription};
+        NSError *err = [NSError errorWithDomain:customEventErrorDomain code:0 userInfo:userInfo];
+        [self.delegate customEventNativeAd:self didFailToLoadWithError:err];
+
+        
+        //WIP: waiting for update of AotterTrek-iOS-SDK for new placeUid
+        /*
         _adPlace = [_jsonDic objectForKey:@"placeUid"];
+        */
+    }
+    else{
+        NSLog(@"[AotterTrek-iOS-SDK: admob mediation] CustomEvent server paramter parsing error: %@", serverParameter);
         
-        [self fetchTKAdNativeWithAdPlace:_adPlace category:category];
-    
+        self->_errorDescription = @"Invalid server parameter.";
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : self->_errorDescription, NSLocalizedFailureReasonErrorKey : self->_errorDescription};
+        NSError *err = [NSError errorWithDomain:customEventErrorDomain code:0 userInfo:userInfo];
+        [self.delegate customEventNativeAd:self didFailToLoadWithError:err];
     }
 }
 

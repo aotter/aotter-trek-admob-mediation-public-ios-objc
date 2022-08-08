@@ -14,6 +14,8 @@
 @property(nonatomic, strong) GADNativeAdImage *mappedIcon;
 @property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, strong) UIView *mediaView;
+@property CGFloat preferedAdWidth;
+@property CGFloat preferedAdHeight;
 
 @end
 
@@ -33,6 +35,8 @@
         [_extras setObject:@"suprAd" forKey:@"trekAd"];
         [_extras setObject:adPlace forKey:@"adPlace"];
         
+        self.preferedAdWidth = preferedAdSize.width;
+        self.preferedAdHeight = preferedAdSize.height;
         NSNumber *adWidth = [NSNumber numberWithDouble:preferedAdSize.width];
         NSNumber *adHeight = [NSNumber numberWithDouble:preferedAdSize.height];
         
@@ -123,6 +127,14 @@
   return nil;
 }
 
+- (CGFloat)mediaContentAspectRatio{
+    if(self.preferedAdWidth > 0 && self.preferedAdHeight > 0){
+        return self.preferedAdWidth/self.preferedAdHeight;
+    }
+    
+    return 0;
+}
+
 - (void)TKAdSuprAdWillLogImpression:(TKAdSuprAd *)ad {
     [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
 }
@@ -146,9 +158,12 @@
 }
 
 -(void)didRenderInView:(UIView *)view clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)clickableAssetViews nonclickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)nonclickableAssetViews viewController:(UIViewController *)viewController{
-    NSLog(@"QQQQQQ");
+    NSLog(@"[AotterTrek-iOS-SDK: adMob mediation] TKAdSuprAd didRenderInView");
     [_suprAd registerAdView:view];
 }
 
+- (void)didUntrackView:(UIView *)view{
+    [_suprAd destroy];
+}
 @end
 
