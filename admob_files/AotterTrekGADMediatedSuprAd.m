@@ -14,6 +14,8 @@
 @property(nonatomic, strong) GADNativeAdImage *mappedIcon;
 @property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, strong) UIView *mediaView;
+@property CGFloat preferedAdWidth;
+@property CGFloat preferedAdHeight;
 
 @end
 
@@ -33,6 +35,8 @@
         [_extras setObject:@"suprAd" forKey:@"trekAd"];
         [_extras setObject:adPlace forKey:@"adPlace"];
         
+        self.preferedAdWidth = preferedAdSize.width;
+        self.preferedAdHeight = preferedAdSize.height;
         NSNumber *adWidth = [NSNumber numberWithDouble:preferedAdSize.width];
         NSNumber *adHeight = [NSNumber numberWithDouble:preferedAdSize.height];
         
@@ -121,6 +125,14 @@
 
 - (UIView *)adChoicesView {
   return nil;
+}
+
+- (CGFloat)mediaContentAspectRatio{
+    if(self.preferedAdWidth > 0 && self.preferedAdHeight > 0){
+        return self.preferedAdWidth/self.preferedAdHeight;
+    }
+    
+    return 0;
 }
 
 - (void)TKAdSuprAdWillLogImpression:(TKAdSuprAd *)ad {
