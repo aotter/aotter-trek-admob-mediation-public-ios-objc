@@ -11,15 +11,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+
 @interface AotterTrekGADCustomEventNativeAd : NSObject<GADCustomEventNativeAd>
 
 @end
- */
+ 
 
 NS_ASSUME_NONNULL_END
-
-
-
-@interface AotterTrekGADCustomEventNativeAd : NSObject<GADMediationAdapter>
-@end
