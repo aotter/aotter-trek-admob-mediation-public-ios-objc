@@ -6,7 +6,7 @@
 //
 
 #import "AotterTrekGADCustomEventBannerAd.h"
-#import "AotterTrekAdmobUtils.h""
+#import "AotterTrekAdmobUtils.h"
 #import <WebKit/WebKit.h>
 
 #if devmode

@@ -135,6 +135,14 @@
     return 0;
 }
 
+-(BOOL)handlesUserClicks{
+    return YES;
+}
+
+-(BOOL)handlesUserImpressions{
+    return YES;
+}
+
 - (void)TKAdSuprAdWillLogImpression:(TKAdSuprAd *)ad {
     [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
 }
