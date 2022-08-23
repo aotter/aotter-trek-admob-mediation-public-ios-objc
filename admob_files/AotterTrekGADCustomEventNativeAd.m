@@ -60,7 +60,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     }
     
     // update sdk need to update mediationVersion and mediationVersionCode
-    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[AotterTrekAdmobUtils admobMediationVersionCode], @"mediationVersion": [AotterTrekAdmobUtils admobMediationVersion]}];
+    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[AotterTrekAdmobUtils admobMediationVersionCode], @"mediationVersion": [AotterTrekAdmobUtils admobMediationVersionName]}];
 
     
     // Parse serverParameter

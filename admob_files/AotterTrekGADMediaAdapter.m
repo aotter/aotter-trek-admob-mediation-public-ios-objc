@@ -17,6 +17,7 @@
 #if devmode
     #import "TKAdSuprAd.h"
     #import "TKAdNative.h"
+    #import "AotterTrek.h"
 #else
     #import <AotterTrek-iOS-SDK/AotterTrek-iOS-SDK.h>
 #endif
@@ -47,8 +48,12 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
 @implementation AotterTrekGADMediaAdapter
 
 + (GADVersionNumber)adSDKVersion {
-    //TODO: get version string from AotterTrek SDK
-    NSString *versionString = @"1.0.0";
+    NSString *versionString = @"0.0.0";
+    
+    //added since trek SDK 3.7.7
+    if([AotterTrek respondsToSelector:@selector(sdkVersion)]){
+        versionString = [AotterTrek sdkVersion];
+    }
     NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
     GADVersionNumber version = {0};
     if (versionComponents.count >= 3) {
@@ -60,8 +65,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
 }
 
 + (GADVersionNumber)adapterVersion {
-    //TODO: get version string from this admob statics
-    NSString *versionString = @"1.0.0";
+    NSString *versionString = [AotterTrekAdmobUtils admobMediationVersion];
     NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
     GADVersionNumber version = {0};
     if (versionComponents.count >= 3) {
@@ -79,10 +83,12 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
 
 
 -(void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler{
-    //TODO: refactor with singleton version handler
-    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[NSNumber numberWithInt:1],@"mediationVersion":@"AdMob_1.0.6"}];
+    NSNumber *versionCode = [AotterTrekAdmobUtils admobMediationVersionCode];
+    NSString *versionName = [AotterTrekAdmobUtils admobMediationVersionName];
+    _requeatMeta = [[NSMutableDictionary alloc] initWithDictionary:@{@"mediationVersionCode":versionCode,
+                                                                    @"mediationVersion":versionName}];
     
-    NSLog(@"[AotterTrekGADCustomEventNativeAd] loadNativeAdForAdConfiguration");
+    NSLog(@"%@ >> loadNativeAdForAdConfiguration", NSStringFromClass([self class]));
     
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationNativeLoadCompletionHandler originalCompletionHandler =
@@ -126,9 +132,9 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
             self.adType = parameters[@"adType"];
         }
     } @catch (NSException *exception) {
-        NSLog(@"[AotterTrekGADCustomEventNativeAd] extract info from adConfiguration.credentials.settings failed. exception: %@", exception.description);
+        NSLog(@"%@ >> extract info from adConfiguration.credentials.settings failed. exception: %@", NSStringFromClass([self class]), exception.description);
     } @finally{
-        NSLog(@"[AotterTrekGADCustomEventNativeAd] extracted clientId: %@, placeUid: %@, adType: %@", self.clientId, self.placeUid, self.adType);
+        NSLog(@"%@ >> extracted clientId: %@, placeUid: %@, adType: %@", NSStringFromClass([self class]), self.clientId, self.placeUid, self.adType);
     }
     
     
@@ -140,7 +146,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     //try extract extras from CustomEventExtras
     @try {
         GADCustomEventExtras *extras = adConfiguration.extras;
-        NSDictionary *myExtras = [extras extrasForLabel:@"AotterTrekGADCustomEventNativeAd"];
+        NSDictionary *myExtras = [extras extrasForLabel:@"AotterTrekGADMediaAdapter"];
         if([myExtras.allKeys containsObject:@"category"]){
             self.category = myExtras[@"category"];
         }
@@ -151,12 +157,12 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
             self.contentUrl = myExtras[@"contentUrl"];
         }
     } @catch (NSException *exception) {
-        NSLog(@"[AotterTrekGADCustomEventNativeAd] extract info from adConfiguration.extras failed. exception: %@", exception.description);
+        NSLog(@"%@ >> extract info from adConfiguration.extras failed. exception: %@", NSStringFromClass([self class]), exception.description);
     } @finally{
-        NSLog(@"[AotterTrekGADCustomEventNativeAd] extracted category: %@, contentTitle: %@, contentUrl: %@", self.category, self.contentTitle, self.contentUrl);
+        NSLog(@"%@ >> extracted category: %@, contentTitle: %@, contentUrl: %@", NSStringFromClass([self class]), self.category, self.contentTitle, self.contentUrl);
     }
     
-    if([self.adType isEqualToString:@"suprAd"]){
+    if([self.adType isEqualToString:@"suprAd"] || [self.adType isEqualToString:@"banner"]){
         [self fetchTKSuprAdWithRootViewController:adConfiguration.topViewController];
     }
     else {
@@ -197,7 +203,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     
     [_adNatve fetchAdWithCallback:^(NSDictionary *adData, TKAdError *adError) {
         if(adError){
-            NSLog(@"[AotterTrek-iOS-SDK: adMob mediation] TKAdNative fetched Ad error: %@", adError.message);
+            NSLog(@"%@ >> TKAdNative fetched Ad error: %@", NSStringFromClass([self class]), adError.message);
            
             self->_errorDescription = adError.message;
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey : self->_errorDescription, NSLocalizedFailureReasonErrorKey : self->_errorDescription};
@@ -206,7 +212,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
             _deletage = _loadCompletionHandler(nil, err);
         }
         else{
-            NSLog(@"[AotterTrek-iOS-SDK: adMob mediation] TKAdNative fetched Ad");
+            NSLog(@"%@ >> TKAdNative fetched Ad", NSStringFromClass([self class]));
             
             AotterTrekGADMediatedNativeAd *mediatedAd = [[AotterTrekGADMediatedNativeAd alloc] initWithTKNativeAd:self->_adNatve withAdPlace:self.placeUid];
             _deletage = _loadCompletionHandler(mediatedAd, nil);
@@ -238,7 +244,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     [_suprAd fetchAdWithCallback:^(NSDictionary *adData, CGSize preferedAdSize, TKAdError *adError, BOOL isVideoAd, void (^loadAd)(void)) {
         
         if(adError){
-            NSLog(@"[AotterTrek-iOS-SDK: adMob mediation] TKAdSuprAd fetched Ad error: %@", adError.message);
+            NSLog(@"%@ >> TKAdSuprAd fetched Ad error: %@", NSStringFromClass([self class]), adError.message);
             NSString *errorDescription = adError.message;
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey : errorDescription, NSLocalizedFailureReasonErrorKey : errorDescription};
             NSError *err = [NSError errorWithDomain:customEventErrorDomain code:0 userInfo:userInfo];
@@ -247,7 +253,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
         }
         else{
             
-            NSLog(@"[AotterTrek-iOS-SDK: adMob mediation] TKAdSuprAd fetched Ad");
+            NSLog(@"%@ >> TKAdSuprAd fetched Ad", NSStringFromClass([self class]));
             
             AotterTrekGADMediatedSuprAd *mediatedAd = [[AotterTrekGADMediatedSuprAd alloc] initWithTKSuprAd:self->_suprAd withAdPlace:self.placeUid withAdSize:preferedAdSize];
 
