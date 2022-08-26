@@ -6,7 +6,7 @@
 //
 
 #import "AotterTrekGADCustomEventBannerAd.h"
-#import "AotterTrekAdmobUtils.h""
+#import "AotterTrekAdmobUtils.h"
 #import <WebKit/WebKit.h>
 
 #if devmode
@@ -27,6 +27,8 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     TKAdSuprAd *_suprAd;
     NSMutableDictionary *_requeatMeta;
 }
+@property NSString *contentTitle;
+@property NSString *contentUrl;
 @end
 
 @implementation AotterTrekGADCustomEventBannerAd
@@ -41,7 +43,7 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     }
     
     // update sdk need to update mediationVersion and mediationVersionCode
-    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[AotterTrekAdmobUtils admobMediationVersionCode], @"mediationVersion": [AotterTrekAdmobUtils admobMediationVersion]}];
+    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[AotterTrekAdmobUtils admobMediationVersionCode], @"mediationVersion": [AotterTrekAdmobUtils admobMediationVersionName]}];
     
     if (serverParameter != nil && ![serverParameter isEqual: @""]) {
         NSData *data = [serverParameter dataUsingEncoding:NSUTF8StringEncoding];
@@ -82,6 +84,17 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     
     _suprAd = [[TKAdSuprAd alloc] initWithPlace:adPlace category:category];
     _suprAd.requestMeta = _requeatMeta;
+    if(self.contentTitle){
+        if([_suprAd respondsToSelector:@selector(setAdContentTitle:)]){
+            [_suprAd performSelector:@selector(setAdContentTitle:) withObject:self.contentTitle];
+        }
+    }
+    if(self.contentUrl){
+        if([_suprAd respondsToSelector:@selector(setAdContentUrl:)]){
+            [_suprAd performSelector:@selector(setAdContentUrl:) withObject:self.contentUrl];
+        }
+    }
+    
     [_suprAd registerPresentingViewController:[self getKeyWindow].rootViewController];
     
     [_suprAd fetchAdWithCallback:^(NSDictionary *adData, CGSize preferedAdSize, TKAdError *adError, BOOL isVideoAd, void (^loadAd)(void)) {

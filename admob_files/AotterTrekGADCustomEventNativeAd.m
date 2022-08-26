@@ -9,6 +9,7 @@
 #import "AotterTrekGADMediatedNativeAd.h"
 #import "AotterTrekGADMediatedSuprAd.h"
 #import "AotterTrekAdmobUtils.h"
+#import <GoogleMobileAds/Mediation/GADMediationAdapter.h>
 
 #if devmode
     #import "TKAdSuprAd.h"
@@ -18,6 +19,7 @@
 #endif
 
 static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCustomEvent";
+
 
 @interface AotterTrekGADCustomEventNativeAd() {
     NSString *_adType;
@@ -29,6 +31,9 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     TKAdNative *_adNatve;
     NSMutableDictionary *_requeatMeta;
 }
+
+@property NSString *contentTitle;
+@property NSString *contentUrl;
 @end
 
 @implementation AotterTrekGADCustomEventNativeAd
@@ -41,9 +46,21 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     if ([[request.additionalParameters allKeys]containsObject:@"category"]) {
         category = request.additionalParameters[@"category"];
     }
+    if([[request.additionalParameters allKeys] containsObject:@"contentTitle"]){
+        NSString *_title = request.additionalParameters[@"contentTitle"];
+        if([_title isKindOfClass:[NSString class]]){
+            self.contentTitle = _title;
+        }
+    }
+    if([[request.additionalParameters allKeys] containsObject:@"contentUrl"]){
+        NSString *_url = request.additionalParameters[@"contentUrl"];
+        if([_url isKindOfClass:[NSString class]]){
+            self.contentUrl = _url;
+        }
+    }
     
     // update sdk need to update mediationVersion and mediationVersionCode
-    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[AotterTrekAdmobUtils admobMediationVersionCode], @"mediationVersion": [AotterTrekAdmobUtils admobMediationVersion]}];
+    _requeatMeta = [[NSMutableDictionary alloc]initWithDictionary:@{@"mediationVersionCode":[AotterTrekAdmobUtils admobMediationVersionCode], @"mediationVersion": [AotterTrekAdmobUtils admobMediationVersionName]}];
 
     
     // Parse serverParameter
@@ -129,6 +146,16 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     
     _adNatve = [[TKAdNative alloc] initWithPlace:_adPlace category:category];
     _adNatve.requestMeta = _requeatMeta;
+    if(self.contentTitle){
+        if([_adNatve respondsToSelector:@selector(setAdContentTitle:)]){
+            [_adNatve performSelector:@selector(setAdContentUrl:) withObject:self.contentUrl];
+        }
+    }
+    if(self.contentUrl){
+        if([_adNatve respondsToSelector:@selector(setAdContentUrl:)]){
+            [_adNatve performSelector:@selector(setAdContentUrl:) withObject:self.contentUrl];
+        }
+    }
     
     [_adNatve fetchAdWithCallback:^(NSDictionary *adData, TKAdError *adError) {
         if(adError){
@@ -158,6 +185,16 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
     
     _suprAd = [[TKAdSuprAd alloc] initWithPlace:adPlace category:category];
     _suprAd.requestMeta = _requeatMeta;
+    if(self.contentTitle){
+        if([_suprAd respondsToSelector:@selector(setAdContentTitle:)]){
+            [_suprAd performSelector:@selector(setAdContentTitle:) withObject:self.contentTitle];
+        }
+    }
+    if(self.contentUrl){
+        if([_suprAd respondsToSelector:@selector(setAdContentUrl:)]){
+            [_suprAd performSelector:@selector(setAdContentUrl:) withObject:self.contentUrl];
+        }
+    }
     
     [_suprAd registerPresentingViewController:rootViewController];
     
@@ -197,3 +234,6 @@ static NSString *const customEventErrorDomain = @"com.aotter.AotterTrek.GADCusto
 }
 
 @end
+
+
+

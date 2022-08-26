@@ -123,6 +123,14 @@
     return nil;
 }
 
+-(BOOL)handlesUserClicks{
+    return YES;
+}
+
+-(BOOL)handlesUserImpressions{
+    return YES;
+}
+
 - (void)didRenderInView:(UIView *)view clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)clickableAssetViews nonclickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)nonclickableAssetViews viewController:(UIViewController *)viewController {
     [_nativeAd registerAdView:view];
     [_nativeAd registerPresentingViewController:viewController];
