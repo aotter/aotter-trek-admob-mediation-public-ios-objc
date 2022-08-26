@@ -8,23 +8,20 @@
 
 #import "AotterTrekAdmobUtils.h"
 
-#define staticAdmobMediationVersionCode @4
-#define staticAdmobMediationVersion @"AdMob_1.0.8"
+#define ADAPTERVERSIONCODE @4
+#define ADAPTERVERSION @"1.0.8"
+
 
 @implementation AotterTrekAdmobUtils
 + (NSNumber *)admobMediationVersionCode{
-    if(staticAdmobMediationVersionCode && staticAdmobMediationVersionCode > 0){
-        return staticAdmobMediationVersionCode;
-    }
-    
-    return @0;
+    return ADAPTERVERSIONCODE;
+}
+
++ (NSString *)admobMediationVersionName{
+    return [NSString stringWithFormat:@"AdMob_%@", ADAPTERVERSION];
 }
 
 + (NSString *)admobMediationVersion{
-    if (staticAdmobMediationVersion){
-        return staticAdmobMediationVersion;
-    }
-    
-    return @"AdMob_unknown";
+    return ADAPTERVERSION;
 }
 @end

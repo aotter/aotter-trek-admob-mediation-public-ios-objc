@@ -12,6 +12,7 @@
 
 @interface AotterTrekAdmobUtils : NSObject
 + (NSNumber *)admobMediationVersionCode;
++ (NSString *)admobMediationVersionName;
 + (NSString *)admobMediationVersion;
 @end
 

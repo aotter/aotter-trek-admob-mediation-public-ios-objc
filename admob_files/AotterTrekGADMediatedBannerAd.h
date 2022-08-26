@@ -1,8 +1,9 @@
 //
-//  AotterTrekGADMediatedSuprAd.h
-//  GoogleMediation
+//  AotterTrekGADMediatedBannerAd.h
+//  AotterServiceTest
 //
-//  Created by JustinTsou on 2020/12/14.
+//  Created by Aotter superwave on 2022/8/23.
+//  Copyright © 2022 Aotter. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -16,12 +17,13 @@
     #import <AotterTrek-iOS-SDK/AotterTrek-iOS-SDK.h>
 #endif
 
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AotterTrekGADMediatedSuprAd : NSObject<GADMediationNativeAd>
-
+@interface AotterTrekGADMediatedBannerAd : NSObject<GADMediationBannerAd>
 - (instancetype _Nullable )initWithTKSuprAd:(nonnull TKAdSuprAd *)suprAd withAdPlace:(NSString *)adPlace withAdSize:(CGSize)preferedAdSize;
+
+NS_ASSUME_NONNULL_END
 
 @end
 
-NS_ASSUME_NONNULL_END
