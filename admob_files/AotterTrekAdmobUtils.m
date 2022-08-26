@@ -8,8 +8,8 @@
 
 #import "AotterTrekAdmobUtils.h"
 
-#define ADAPTERVERSIONCODE @4
-#define ADAPTERVERSION @"1.0.8"
+#define ADAPTERVERSIONCODE @5
+#define ADAPTERVERSION @"1.0.9"
 
 
 @implementation AotterTrekAdmobUtils

@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
           #1.
           s.name                   = "TrekSDKAdMobMediationObjc"
           #2. 雙號支援 Google ads sdk v8
-          s.version                = "1.0.8"
+          s.version                = "1.0.9"
           #3.  
           s.summary                = "AotterTrek SDK AdMob Mediation Objc for iOS developer."
           #4.
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
           s.swift_version          = '4.2'
           s.source_files           = "admob_files/**"
           s.dependency               "Google-Mobile-Ads-SDK"
-          s.dependency               "AotterTrek-iOS-SDK"
+          s.dependency               "AotterTrek-iOS-SDK" , '~> 3.7.7'
           s.static_framework = true
      
 
