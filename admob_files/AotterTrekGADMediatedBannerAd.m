@@ -41,28 +41,6 @@
         
         [_extras setObject:adWidth forKey:@"adSizeWidth"];
         [_extras setObject:adHeight forKey:@"adSizeHeight"];
-        
-        
-//        NSString *iconImageUrlString = _suprAd.adData[kTKAdImage_iconKey];
-//        NSURL *iconImageURL = [[NSURL alloc] initWithString:iconImageUrlString];
-//        GADNativeAdImage *iconImage = [[GADNativeAdImage alloc] initWithURL:iconImageURL scale:1];
-//
-//        NSString *iconHDImageUrlString = _suprAd.adData[kTKAdImage_icon_hdKey];
-//        NSURL *iconHDImageURL = [[NSURL alloc] initWithString:iconHDImageUrlString];
-//        GADNativeAdImage *iconHDImage = [[GADNativeAdImage alloc] initWithURL:iconHDImageURL scale:1];
-//
-//        NSString *mainImageUrlString = _suprAd.adData[kTKAdImage_mainKey];
-//        NSURL *mainImageURL = [[NSURL alloc] initWithString:mainImageUrlString];
-//        GADNativeAdImage *mainImage = [[GADNativeAdImage alloc] initWithURL:mainImageURL scale:1];
-        
-//        self.mappedImages = @[iconImage,iconHDImage,mainImage];
-//        _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconHDImageURL scale:1];
-        
-        
-//        [_extras setObject:iconImageUrlString forKey:kTKAdImage_iconKey];
-//        [_extras setObject:iconHDImageUrlString forKey:kTKAdImage_icon_hdKey];
-//        [_extras setObject:mainImageUrlString forKey:kTKAdImage_mainKey];
-        
         [_extras addEntriesFromDictionary:_suprAd.adData];
         
         // register SuprAd MediaView
