@@ -137,7 +137,12 @@
 }
 
 - (void)didUntrackView:(UIView *)view{
-    [_nativeAd destroy];
+    /**
+     WARNING: didUntrackView will trigger if the GADnativeAd get untracked.
+     sometimes it will get called when table view reloaded.
+     it's also an optional function to destroy trek ad.
+     */
+    //[_nativeAd destroy];
 }
 
 
