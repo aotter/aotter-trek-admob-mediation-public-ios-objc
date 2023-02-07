@@ -28,8 +28,8 @@ Pod::Spec.new do |s|
           #10.
           s.swift_version          = '4.2'
           s.source_files           = "admob_files/**"
-          s.dependency               "Google-Mobile-Ads-SDK"
-          s.dependency               "AotterTrek-iOS-SDK" , '>= 3.8.3'
+          #s.dependency               "Google-Mobile-Ads-SDK"
+          #s.dependency               "AotterTrek-iOS-SDK" , '>= 3.8.3'
           s.static_framework = true
      
 
