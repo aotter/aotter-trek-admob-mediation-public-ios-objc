@@ -24,4 +24,34 @@ version 1.0.6， fixed cocoapods x86_64 install warning message. And v7(1.0.3) i
 version 1.0.3 、 1.0.4 ，fixed the issue of banner ads crashing under iOS 13.
 
 
+# Digram for admob adapter
+```mermaid
+sequenceDiagram
+    participant App as Publisher's App
+    participant Admob
+    participant Adapter as Trek Adapter
+    participant Sdk as Trek SDK
+    participant OtherSdk as Other SDK
+    App->>Admob: Send request for ad
+    Note over Admob: Determines which ad network to choose
+    alt Trek is chosen
+        Admob->>Adapter: Request ad
+        Adapter->>Sdk: Request ad
+        alt Ad from Trek SDK is available
+            Sdk-->>Adapter: Response an ad
+            Note over Adapter: Do 'Trek implementation'
+            Adapter-->>Admob: Response ad
+            Admob-->>App: Response ad
+        else Ad from Trek SDK is not available
+            Adapter-->>Admob: Inform no ad available
+            Admob->>OtherSdk: Request ad
+            OtherSdk-->>Admob: Response ad
+            Admob-->>App: Response ad from Other SDK
+        end
+    else Other network is chosen
+        Admob->>OtherSdk: Request ad
+        OtherSdk-->>Admob: Response ad
+        Admob-->>App: Response ad from Other SDK
+    end
 
+```
